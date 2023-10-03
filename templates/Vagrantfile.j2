@@ -1,0 +1,14 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Use the same key for each machine
+  config.ssh.insert_key = false
+
+{% for n in range(number_of_vagrant_hosts) %}
+  config.vm.define "vagrant{{n+1}}" do |vagrant{{n+1}}|
+    vagrant{{n+1}}.vm.box = "ubuntu/focal64"
+    vagrant{{n+1}}.vm.network "forwarded_port", guest:22, host: 223{{n}}
+    vagrant{{n+1}}.vm.network "private_network", ip: "10.2.2.{{200+n}}"
+  end
+{% endfor %}
+end
