@@ -1,0 +1,12 @@
+{% for n in range(number_of_vagrant_hosts) %}
+{% if n == 0 %}
+[admin]
+vagrant1 ansible_port={{admin_port}} ansible_user={{owner}}
+{% endif %}
+{% endfor %}
+[webservers]
+{% for n in range(number_of_vagrant_hosts) %}
+{% if n > 0 %}
+vagrant{{n+1}} ansible_port={{admin_port+n}} ansible_user={{owner}}
+{% endif %}
+{% endfor %}
